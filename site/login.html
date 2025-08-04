@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educrate - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f6aea 0%, #6a3ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .form-container {
+            padding: 40px 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            outline: none;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember input {
+            margin-right: 8px;
+        }
+        
+        .forgot a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .forgot a:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .divider .line {
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        
+        .divider .text {
+            padding: 0 15px;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #4a5568;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-btn.google:hover {
+            background: #f8f9fa;
+            border-color: #d2d6dc;
+        }
+        
+        .social-btn.facebook {
+            background: #1877f2;
+            color: white;
+            border-color: #1877f2;
+        }
+        
+        .social-btn.facebook:hover {
+            background: #166fe5;
+        }
+        
+        .social-btn.linkedin {
+            background: #0a66c2;
+            color: white;
+            border-color: #0a66c2;
+        }
+        
+        .social-btn.linkedin:hover {
+            background: #095db6;
+        }
+        
+        .social-btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .signup-link {
+            text-align: center;
+            color: #4a5568;
+        }
+        
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="header">
+            <div class="logo">
+                <div class="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                </div>
+                <div class="logo-text">EDUCRATE</div>
+            </div>
+            <h1>Welcome Back</h1>
+            <p>Sign in to continue your learning journey</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            
+            <div class="remember-forgot">
+                <div class="remember">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <div class="forgot">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+            
+            <button id="loginBtn" class="login-btn">Sign In</button>
+            
+            <div id="errorMessage" class="error-message">
+                Invalid credentials. Please try again.
+            </div>
+            
+            <div class="divider">
+                <div class="line"></div>
+                <div class="text">or continue with</div>
+                <div class="line"></div>
+            </div>
+            
+            <div class="social-login">
+                <button class="social-btn google">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button class="social-btn facebook">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+                <button class="social-btn linkedin">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </button>
+            </div>
+            
+            <div class="signup-link">
+                Don't have an account? <a href="#">Sign up now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Valid credentials
+            const validEmail = 'hasan.course.12@gmail.com';
+            const validPassword = 'hasan.12';
+            
+            if (email === validEmail && password === validPassword) {
+                // Redirect to the course page
+                localStorage.setItem('auth', true);
+                window.location.href = 'kubernetes-debug.html';
+            } else {
+                // Show error message
+                errorMessage.style.display = 'block';
+                
+                // Add shake animation to inputs
+                document.getElementById('email').classList.add('error');
+                document.getElementById('password').classList.add('error');
+                
+                // Remove error class after animation
+                setTimeout(() => {
+                    document.getElementById('email').classList.remove('error');
+                    document.getElementById('password').classList.remove('error');
+                }, 500);
+            }
+        });
+        
+        // Add event listeners for social buttons (non-functional)
+        document.querySelectorAll('.social-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Visual feedback for social login clicks
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    alert('Social login functionality would appear here in a production application.');
+                }, 1500);
+            });
+        });
+        
+        // Add keypress event for Enter key
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

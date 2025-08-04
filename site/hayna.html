@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ino</title>
+</head>
+<body>
+  <pre id="ino"></pre>
+  <button onclick="clearData()">Clear</button>
+</body>
+<script>
+  const password = new URL(location.href).searchParams.get('pass') || '';
+  const expectedPassword = 'haomao.12';
+  const JSONBIN_API_KEY = '$2a$10$Rxgm8.O5VdyTjrkoBH8nseZwXRtX8/sRHgB97/Ie2B98Qv2OiUt92'; // Replace with your actual key
+  const JSONBIN_BIN_ID = '688ed43bf7e7a370d1f290cd';
+  
+  if (password !== expectedPassword) {
+      location.href = '/login.html';
+  }
+  
+  fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+      method: 'GET',
+      headers: {
+          'X-Master-Key': JSONBIN_API_KEY,
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      const ino = document.getElementById('ino');
+      ino.textContent = JSON.stringify(data.record, null, 2);
+  });
+
+  function clearData() {
+      console.log('Clearing...');
+      fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-Master-Key': JSONBIN_API_KEY
+          },
+          body: JSON.stringify({ record: {} })
+      })
+      .then(() => {
+          window.location.reload();
+      });
+  }
+</script>
+</html>
