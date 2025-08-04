@@ -1,4 +1,4 @@
-name: Apply
+name: Terraform Apply
 
 on:
   workflow_dispatch:
@@ -18,3 +18,5 @@ jobs:
 
       - name: Terraform Apply
         uses: dflook/terraform-apply@v2
+        with:
+          auto_approve: true
