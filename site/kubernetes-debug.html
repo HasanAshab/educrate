@@ -8,6 +8,71 @@
     <link rel="icon" href="./favicon.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+       :root {
+    --alert-bg: #fee2e2;   /* red-100 */
+    --alert-border: #ef4444; /* red-500 */
+    --alert-text: #991b1b; /* red-800 */
+  }
+
+  .alert-banner {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 9999;
+    transform: translateY(-100%);
+    opacity: 0;
+    background: var(--alert-bg);
+    border-bottom: 2px solid var(--alert-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    transition: transform .25s ease, opacity .25s ease;
+  }
+
+  .alert-banner.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .alert-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: .75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+
+  .alert-icon {
+    width: 20px; height: 20px;
+    fill: var(--alert-border);
+    flex: 0 0 auto;
+  }
+
+  .alert-text {
+    color: var(--alert-text);
+    font-weight: 600;
+    line-height: 1.4;
+    flex: 1 1 auto;
+  }
+
+  .alert-close {
+    border: 0;
+    background: transparent;
+    color: var(--alert-text);
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: .25rem .5rem;
+    cursor: pointer;
+  }
+  .alert-close:focus-visible {
+    outline: 2px solid var(--alert-border);
+    outline-offset: 2px;
+    border-radius: .375rem;
+  }
+
+  /* Push page content down when banner shown (optional) */
+  body.has-alert {
+    /* Adjust if your site has its own fixed header height */
+    scroll-margin-top: 56px;
+  }
         .lock-icon {
             position: absolute;
             top: 50%;
@@ -172,6 +237,23 @@
             </div>
         </div>
     </header>
+    <div id="checkout-refund-alert"
+     role="alert"
+     aria-live="assertive"
+     aria-hidden="true"
+     class="alert-banner">
+  <div class="alert-content">
+    <svg class="alert-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm1 14h-2v-2h2zm0-4h-2V6h2z"/>
+    </svg>
+    <span class="alert-text">
+      There was a problem while proceeding checkout, payment is in refunding state (may take up to 24 hours)
+    </span>
+    <button type="button" class="alert-close" aria-label="Dismiss alert" onclick="hideCheckoutRefundAlert()">
+      ×
+    </button>
+  </div>
+</div>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 max-w-6xl">
@@ -527,7 +609,38 @@
         </div>
     </div>
 
-    <script>      
+    <script>   
+    function showCheckoutRefundAlert({ autoHideMs = 0 } = {}) {
+    const el = document.getElementById('checkout-refund-alert');
+    if (!el) return;
+
+    el.classList.add('is-visible');
+    el.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('has-alert');
+
+    // Optionally auto-hide after N milliseconds
+    if (autoHideMs > 0) {
+      clearTimeout(el._hideTimer);
+      el._hideTimer = setTimeout(hideCheckoutRefundAlert, autoHideMs);
+    }
+  }
+// Show and keep it until user dismisses:
+showCheckoutRefundAlert();
+
+// Or show and auto-hide after 8 seconds:
+showCheckoutRefundAlert({ autoHideMs: 10000000 });
+
+  // Hides the alert.
+  function hideCheckoutRefundAlert() {
+    const el = document.getElementById('checkout-refund-alert');
+    if (!el) return;
+
+    el.classList.remove('is-visible');
+    el.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('has-alert');
+    clearTimeout(el._hideTimer);
+  }
+   
         if (localStorage.getItem('auth') !== 'true') {
             window.location.href = 'login.html';
         }
